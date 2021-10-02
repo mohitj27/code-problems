@@ -7,8 +7,6 @@ struct Activitiy
     int start, finish;
 };
 
-// A utility function that is used for sorting
-// activities according to finish time
 bool activityCompare(Activitiy s1, Activitiy s2)
 {
     return (s1.finish < s2.finish);
