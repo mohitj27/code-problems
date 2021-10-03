@@ -1,5 +1,6 @@
 #include<iostream>
 using namespace std;
+
 int main() {
     int t,count1,n,num,count0;
     bool flag;
@@ -22,9 +23,9 @@ int main() {
 	        count0++;
 	      }
 	     if(flag==true)
-	      cout<<"YES\n";
+	      cout<<"AFFIRMATIVE\n";
 	     else
-	      cout<<"NO\n";
+	      cout<<"NEGATIVE\n";
 	}
 
 	return 0;
