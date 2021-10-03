@@ -51,7 +51,6 @@ int main()
     for(int i = 0; i < n; i++) {
         cin>>arr[i].start>>arr[i].finish;
     }
- int result = printMaxActivities(arr, n);
       cout<<result<<endl;
     }
     return 0;
