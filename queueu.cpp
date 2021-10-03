@@ -17,7 +17,7 @@ class Queue{
           while(s1.size()>1) {
             int ele = s1.top();
             s1.pop();
-            s2.push(ele);
+            s2.push(ele + 2);
 
           }
           s1.pop();
