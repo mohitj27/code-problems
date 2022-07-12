@@ -35,11 +35,6 @@ int main() {
      
      binary consist of only 0 and 1
 
-  pehle col vala loop h 
-  use sahi karo 
-  code m
-  mera code dekho idhar
-
   map<char,int> a[100];
 
   for(int i=0; i< str.len(); i++) { 
@@ -69,6 +64,5 @@ int main() {
 	retrun 0;
 }
 
-just iterate matrix and check whether it is 1 in column then it would return answer O(n2)
 
 
