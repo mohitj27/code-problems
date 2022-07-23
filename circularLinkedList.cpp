@@ -11,7 +11,7 @@ public:
 		data = d;
 		next = NULL;
 	}
-};
+};	
 
 void insert(node*&head,int data){
 
@@ -37,7 +37,7 @@ void insert(node*&head,int data){
 
 }
 void print(node*head){
-	node*teamp = head;
+	node*temp = head;
 	while(temp->next!= head){
 		cout<<temp->data<<" ";
 		temp = temp->next;
@@ -46,7 +46,54 @@ void print(node*head){
 	return;
 }
 // deletion in circular Linked list 
+node *getnode(node *head,int data) {
+	node*temp = head;
+	while(temp->next!= head) {
+		if(temp->data == data) return temp;
+
+		temp = temp->next;
+	}
+
+	if(temp->data == data) return temp;
+
+	return NULL;
+}
+void deleteNode(node*&head, int data){
+	node *del = getnode(head,data);
+	if(del == NULL) return;
+     
+     if(head == del) head =  head->next;
+     node *temp = head;
+	while(temp->next!= del){
+		temp = temp->next;
+	}
+	temp->next = del->next;
+	delete del;
+}
 int main() {
+    
+
+    
+       #ifndef ONLINE_JUDGE
+    // for getting input from input.txt
+    freopen("input.txt", "r", stdin);
+    // for writing output to output.txt
+    freopen("output.txt", "w", stdout);
+    #endif
+    
+
+	node * head = NULL;
+
+	insert(head,10);
+	insert(head,20);
+
+	insert(head,30);
+	insert(head,40);
+    print(head);
+
+	deleteNode(head,30);
+    
+    print(head);
   
 
 

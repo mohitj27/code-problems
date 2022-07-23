@@ -128,6 +128,8 @@ node* take_input_2(){
    }
    return head;
 }
+
+
 ostream& operator<<(ostream &os,node*head){
 	print(head);
     return os;
@@ -170,9 +172,6 @@ node* recReverse(node*head){
    temp->next = head;
   
    return shead;
-
-
-
 }
    node* midpoint(node*head){
    	if(head==NULL or head->next == NULL){
@@ -205,6 +204,7 @@ node* recReverse(node*head){
     return slow;
 
    }
+
 node* merge(node*a,node*b){
 
    	if(a==NULL) return b;
@@ -239,19 +239,48 @@ node* mergeSort(node *head) {
     return c;
 
 }
-// Cycle detection and removal (Floyd's cycle)
-bool detectCycle(node* head) {
+// Cycle detection and removal (Floyd's cycle) It should complete 
+bool detectCycle(node* &head) {
 	node*slow = head;
 	node*fast = head;
 
 	while(fast!=NULL && fast->next!=NULL){
 		fast = fast->next->next;
 		slow = slow->next;
-		if(fast==slow) return true;
+		if(fast==slow) { 
+        
+         removeCycle(slow,head);
+      
+			return true; }
 
 	}
 
 	return false;
+
+}
+
+void removeCycle(node* slow,node* &head ) {
+   
+   node* ptr1 = slow;
+
+   node* ptr2 = head;
+
+   node* prev = ptr1;
+
+   while(ptr2!= ptr1){
+      
+      prev = ptr1;
+      ptr1 = ptr1->next;
+      ptr2 = ptr2->next;    
+     
+      
+
+
+      
+   }
+
+    prev->next = NULL;
+
 
 }
 
@@ -265,13 +294,15 @@ int main() {
     freopen("output.txt", "w", stdout);
     #endif
     
-	node*head = take_input_2();
-    node*head2 = take_input_2();
-    node *head,*head2;
-    cin>>head>>head2;
-	cout<<head;
-	cout<<head2;
-	cout<<head<<head2;
+    node *head = take_input_2();
+
+	// node*head = take_input_2();
+ //    node*head2 = take_input_2();
+ //    node *head,*head2;
+ //    cin>>head>>head2;
+	// cout<<head;
+	// cout<<head2;
+	// cout<<head<<head2;
     // insertAtHead(head,3);
     // insertAtHead(head,2);
     // insertAtHead(head,1);
