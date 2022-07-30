@@ -1,4 +1,4 @@
-#include <iostream>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -54,10 +54,10 @@ int height(node *root){
 
 	int ls = height(root->left);
 	int rs = height(root->right);
-	return max(ls,hs) + 1; 
+	return max(ls,rs) + 1; 
 }
 
-int printKthLevel(node*root,int k) {
+void printKthLevel(node*root,int k) {
 	if(root == NULL) return;
 
 	if(k==1) {
@@ -131,15 +131,13 @@ int diameter(node*root) {
 
 	return max(op1,max(op2,op3));
 }
-int diameterOp(node *root){
 
-}
 class Pair{
 public:
 	int height;
 	int diameter;
 
-}
+};
 Pair fastDiameter(node*root){
 	Pair p;
 
@@ -160,6 +158,65 @@ Pair fastDiameter(node*root){
 
 	return p;
 }
+ 
+ int replaceSum(node *root){
+ 	if(root == NULL){
+ 		return 0;
+ 	}
+ 	if(root->left == NULL && root->right == NULL){
+ 		return root->data;
+ 	}
+ 	int leftSum = replaceSum(root->left);
+ 	int rightSum = replaceSum(root->right);
+ 	int temp = root->data;
+
+ 	root->data = leftSum + rightSum;
+
+ 	return temp + root->data;
+
+ }
+    // Height balanced tree , at every node of the tree
+  // | h1 - h2 | <=1 height of order of log(n)
+  
+  class HBpair{
+  public:
+  	 int height;
+  	 bool balance;
+  };
+
+ HBpair isHeightBalance(node *root) {
+   HBpair p;
+   if(root == NULL){
+   	p.height = 0 ;
+   	p.balance = true;
+   	return p;
+   }
+   HBpair left = isHeightBalance(root->left);
+   HBpair right = isHeightBalance(root->right);
+  p.balance = false;
+   if(abs(left.height - right.height)<=1 and left.balance 
+   	 and right.balance) {
+   	p.height = max(left.height,right.height) + 1;
+   p.balance = true;
+   }
+   return p;
+
+
+ }
+
+ node * buildTreeFromArray(int *a,int s,int e) {
+ 	if(s>e) {
+ 		return NULL;
+ 	}
+ 	int mid = (s+e) / 2;
+
+ 	node* root = new node(a[mid]);
+
+ 	root->left = buildTreeFromArray(a,s,mid-1);
+ 	root->right = buildTreeFromArray(a,mid+1,e);
+
+ 	return root;
+ }
 int main() {
 
     #ifndef ONLINE_JUDGE
@@ -168,9 +225,13 @@ int main() {
     // for writing output to output.txt
     freopen("output.txt", "w", stdout);
     #endif
-    node * tree = buildTree();
+    // node * tree = buildTree();
 
-    print(tree);
-
+    // print(tree);
+    int a[] = {1,2,3,4,5,6,7};
+    int n = 7;
+    
+    node *root = buildTreeFromArray(a,0,n-1);
+    bfs2(root);
     return 0;
 }
