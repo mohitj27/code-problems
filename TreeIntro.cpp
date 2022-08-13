@@ -217,6 +217,78 @@ Pair fastDiameter(node*root){
 
  	return root;
  }
+ // preorder + inorder - 1 unique tree
+ // postorder + inorder - 1 uinque tree 
+
+node* createTreeFromTrav(int *in, int *pre,int s,int e){
+	static int i =0;
+
+	if(s>e){
+		return NULL;
+	}
+	node *root = new node(pre[i]);
+
+	int index = -1;
+	for(int j = s; s<=e; j++){
+		if(in[j] == pre[i]){
+			index = j;
+			break;
+		}
+	}
+	i++;
+	root->left = createTreeFromTrav(in,pre,s,index-1);
+	root->right = createTreeFromTrav(in,pre,index+1,e);
+
+	return root;
+
+}
+node *createTreeFromTravPos(int *in,int *pos,int s,int e){
+	static int i = e;
+
+	if(s>e) return NULL;
+
+	node* root = new node(pos[i]);
+	int index = -1;
+
+	for(int j = s; j<=e; j++){
+		if(in[j] == pos[i]){
+			index = j;
+			break;
+		}
+	}
+	i--;
+	root->right = createTreeFromTravPos(in,pos,index+1,e);
+
+	root->left = createTreeFromTravPos(in,pos,s,index -1);
+
+	return root;
+}
+
+  void printRightView(node *root,int level,
+  	int &maxlevel) {
+    
+    if(root == NULL)
+    	return;
+
+    if(maxlevel<level) {
+    	cout<< root->data << " ";
+
+    	maxlevel = level;
+    }
+    // right
+    printRightView(root->right,level+1,maxlevel);
+
+    //left
+
+    printRightView(root->left, level + 1 , maxlevel);
+
+
+
+
+
+
+  }
+
 int main() {
 
     #ifndef ONLINE_JUDGE
@@ -228,10 +300,187 @@ int main() {
     // node * tree = buildTree();
 
     // print(tree);
-    int a[] = {1,2,3,4,5,6,7};
-    int n = 7;
+    // int a[] = {1,2,3,4,5,6,7};
+    // int n = 7;
     
-    node *root = buildTreeFromArray(a,0,n-1);
+    // node *root = buildTreeFromArray(a,0,n-1);
+    // bfs2(root);
+
+    // int in[] = {3,2,8,4,1,6,7,5};
+    // int pre[] = {1,2,3,4,8,5,6,7};
+     
+    // int n = sizeof(in)/sizeof(int);
+
+    // node *root = createTreeFromTrav(in,pre,0,n-1);
+    // bfs2(root);
+
+    int ind[]   = {4, 8, 2, 5, 1, 6, 3, 7};
+    int post[] = {8, 4, 5, 2, 6, 7, 3, 1}; 
+    int k = sizeof(ind)/sizeof(int);
+
+    node *root = createTreeFromTravPos(ind,post,0,k-1);
     bfs2(root);
     return 0;
 }
+
+
+
+
+
+{"house", "cat", "hope", "hair"}
+
+"ho" -> "house", "hope"
+"cat" -> "cat"
+"h" -> "house", "hope", "hair"
+  
+       
+       struct trie {
+           trie *map<char,trie> child ;
+           bool isLeaf;
+           
+           trie() {
+                for(auto char : child) {
+                    child[char] = NULL;
+                }
+               isLeaf = false;
+           }
+       }
+       
+       void insert(trie * root,string &s, int st){
+         
+         for(int i = st ; i < s.size(); i++ ) {
+             if(root->child[s[i]] == NULL) root->child[s[i]] = new trie();
+             root = root->child[s[i]];
+         }
+         root->isLeaf = true;
+       }
+       
+       bool search(trie * root, string & word, int st) {
+           for(int i = 0 ; i < word.size(); i ++) {
+               if(root->child[word[i]] == NULL) return false;
+               
+               root = root->child[word[i]];
+           }
+           
+           return true;
+       }
+       
+       int main() {
+           int n;
+           cin>>n;
+           vector<string> BusinessName;
+           
+           for(int  )// input
+           
+           string searchTerm; 
+           
+           for(auto name : BusinessName) {
+               trie * root  = new trie();
+               insert(name,root,0);
+               
+               for(int i = 1; i +1 < name.size(); i++ ) {
+                   if(name[i]== ' '){
+                       insert(root,name,i+1);
+                   }
+               }
+           }
+           if(search(root,searchTerm)){
+               cout<<name<<endl;
+           }
+           
+           
+       }   
+    
+    
+    
+    
+
+
+----------------------------------
+/*
+Q1. HeadToTail
+
+In this puzzle game, sometimes called Word Ladder, the goal is to find a path of words between two English words with two simple rules:
+- You can change only one letter at a time
+- Every word in the steps has to be a valid English word.
+Here is an example, going from "HEAD" to "TAIL" (make sure to emphasize which letter is changed on each step):
+- HEAD
+- HEAL
+- TEAL
+- TELL
+- TALL
+- TAIL
+
+bool EnglishDictionary.isValidWord(String word);
+*/
+  static class Pair<T,U> {
+      T left;
+      U right;
+      public Pair(T left,U right){
+          this.left = left;
+          this.right = right;
+      }
+      public <T,U> T getLeft(){
+          return (T) this.left;
+      }
+            public <T,U> T getRight(){
+          return (T) this.right;
+      }
+  }
+      class Node {
+        String CurrWord;
+        List<String> path = new ArrayList();
+        public Node(string CurrWord,List<String> prevPath) {
+            path.addAll(prevPath);
+            path.add(currWord);
+            this.CurrWord = CurrWord;
+        }
+  
+  private List<Pair<String,Integer>> getNeighbors(Set<string> visited,Node node){
+      String cur = node.currWord;
+      List<Pair<String,Integer>> neighbors = new ArrayList<>();
+       for(int i = cur.size; i > 0; i --) {
+           for(int j = 0; j< 26;j ++  ){
+               String temp = cur;
+               if (cur[i]!='A'+j) {
+                   temp[i]='A'+j;
+                   if(isValidWord(temp)) {
+                          //add to neighbor
+                       
+                     neigbors.add(new Pair<>(temp,i));
+                   }
+               }
+           }
+       }
+    return neighbors;
+      
+      
+  }
+
+        public List<String> getPath(Set<String> dev, String beginword,String endWord) {
+            Queue<Node> q = new LinkedList<>();
+            List<String> path = new ArrayList<>();
+            q.add(new Node(beginword,path));
+            Set<String> visited = new HashSet<>();
+            
+            visited.add(beginword);
+            while(!q.isEmpty()) {
+                
+                
+                Node curr = q.poll();
+                
+                if(curr.CurrWord.equals(endWord)){
+                    System.out.println(curr.path);
+                    return curr.path;
+                }
+                for(Pair<String,Integer> neighbour : getNeighbour(visited,curr)) {
+                    q.add(new Node
+                }
+            }
+            
+        }
+        
+    }
+
+
+
