@@ -78,6 +78,40 @@ void printAllLevels(node *root){
 	}
 }
 
+node * inputLevelWise(vector<int> a){
+  
+  queue<node *> q;
+  int n = a.size();
+  node * curNode =  NULL;
+  node * root = new node(a[0]);
+  int count = 0;
+  q.push(root);
+  for(int i =1; i <n;i++){
+  	node *tempNode = NULL;
+  	if(a[i]!= -1) { 
+     tempNode = new node(a[i]);}
+     
+     if(count == 0) {
+     curNode = 	q.front();
+     q.pop();
+     }
+     if(count ==0) {
+     	count++;
+       curNode->left = tempNode;
+     } else {
+     	count =0;
+     	curNode->right = tempNode;
+     }
+
+     if(a[i] != -1 ){
+
+     	q.push(tempNode);
+     }
+  
+  }  
+  return root;
+}
+
 void bfs(node *root){
 
 	queue<node*> q;
@@ -120,6 +154,10 @@ void bfs2(node *root){
 	}
 	return;
 }
+
+
+
+
 int diameter(node*root) {
 	if(root==NULL) return 0;
 
@@ -283,11 +321,141 @@ node *createTreeFromTravPos(int *in,int *pos,int s,int e){
     printRightView(root->left, level + 1 , maxlevel);
 
 
+  }
 
+  
+  void printLeftView(node *root,int level,
+  	int &maxlevel) {
+    
+    if(root == NULL)
+    	return;
+
+    if(maxlevel<level) {
+    	cout<< root->data << " ";
+
+    	maxlevel = level;
+    }
+    // left
+
+    printLeftView(root->left,level+1,maxlevel);
+
+    //right
+
+    printLeftView(root->right, level + 1 , maxlevel);
 
 
 
   }
+  void printAtLevelK(node*root,int k) {
+	if(root == NULL) return;
+
+	if(k==0) {
+		cout<<root->data<<" ";
+		return;
+	}
+	printKthLevel(root->left,k-1);
+	printKthLevel(root->right,k-1);
+	return;
+}
+int printtAtDistanceK(node*root,node*target,int k) {
+
+if(root == NULL) {
+	return -1;
+}	
+// reach the target node
+
+if(root == target){
+	printAtLevelK(target,k);
+	return 0;
+}
+// next step - ancestor
+int DL = printtAtDistanceK(root->left,target,k);
+if(DL!= -1){
+	// Again there are two cases
+	// ancestor itself or you need to go right ancestor
+	if(DL + 1 == k){
+		cout<<root->data<<" ";
+	} else {
+		printAtLevelK(root->right,k-2-DL);
+	}
+	return 1+DL; 
+}
+int DR = printtAtDistanceK(root->right,target,k);
+if(DR!=-1){
+	if(DR+1 ==k){
+		cout<<root->data<<" ";
+	}
+   else{
+   	printAtLevelK(root->left,k-2-DR);
+   }	
+   return 1+DR;
+}
+return -1;
+}
+
+node * lca(node*root,int a,int b){
+
+	if(root == NULL) return NULL;
+
+	if(root->data == a or root->data == b) {
+		return root;
+	}
+	node *leftans = lca(root->left,a,b);
+	node *rightans = lca(root->right,a,b);
+	if(leftans != NULL and rightans != NULL) return root;
+
+	if(leftans != NULL) return leftans;
+
+	return rightans;
+}
+
+
+void verticalOrderPrint(node *root,int d,map<int,vector<int> > &m){
+  if(root ==NULL) return;
+
+  m[d].push_back(root->data);
+   
+  verticalOrderPrint(root->left,d-1,m);
+  verticalOrderPrint(root->right,d+1,m);
+   return; 
+}
+class NewPair{
+	public:
+	int branchSum;
+	int maxSum; 
+
+	NewPair() {
+		branchSum = 0;
+		maxSum = 0;
+	}
+};
+NewPair maxPathSumFromAnyNode(node *root) {
+    NewPair p;
+	if(root == NULL) return p;
+
+	NewPair left = maxPathSumFromAnyNode(root->left);
+	NewPair right = maxPathSumFromAnyNode(root->right);
+
+	// construct two values
+
+	int op1 = root->data;
+	int op2 = left.branchSum + root->data;
+	int op3 = right.branchSum + root->data;
+	int op4 = left.branchSum + right.branchSum + root->data;
+
+	int current_ans_through_root = max(op1,max(op2,max(op3,op4)));
+
+	// branch sum of root
+
+	p.branchSum = max(left.branchSum,max(right.branchSum,0)) + root->data;
+
+	p.maxSum = max(left.maxSum,max(right.maxSum,current_ans_through_root));
+
+	return p;
+
+}
+
+
 
 int main() {
 
@@ -297,8 +465,36 @@ int main() {
     // for writing output to output.txt
     freopen("output.txt", "w", stdout);
     #endif
-    // node * tree = buildTree();
+    map<int , vector<int> > m;
+    int d = 0;
+    int t;
+    vector<int> input;
+    while(cin>>t){
+    	input.push_back(t);
+    }
+    
 
+    node * tree = inputLevelWise(input);
+     bfs2(tree);
+    cout<<" max Sum Path"<<maxPathSumFromAnyNode(tree).maxSum<<endl;
+    //  verticalOrderPrint(tree,d,m);
+    //  for(auto p : m){
+
+    //  	cout<<p.first<<"    ";
+    //     for(auto k : p.second) {
+    //  	cout<<p.second[0]<<" ";
+
+    //  }  cout<<endl;
+
+    //  }
+    // // node * tree = buildTree();
+    // int rightView = 0;
+    // int leftView = 0;
+    // node* target = tree->left;
+
+    // printtAtDistanceK(tree,target,2);
+    // printRightView(tree,1,leftView);
+    // printLeftView(tree,1,rightView);
     // print(tree);
     // int a[] = {1,2,3,4,5,6,7};
     // int n = 7;
@@ -314,173 +510,17 @@ int main() {
     // node *root = createTreeFromTrav(in,pre,0,n-1);
     // bfs2(root);
 
-    int ind[]   = {4, 8, 2, 5, 1, 6, 3, 7};
-    int post[] = {8, 4, 5, 2, 6, 7, 3, 1}; 
-    int k = sizeof(ind)/sizeof(int);
+    // int ind[]   = {4, 8, 2, 5, 1, 6, 3, 7};
+    // int post[] = {8, 4, 5, 2, 6, 7, 3, 1}; 
+    // int k = sizeof(ind)/sizeof(int);
 
-    node *root = createTreeFromTravPos(ind,post,0,k-1);
-    bfs2(root);
+    // node *root = createTreeFromTravPos(ind,post,0,k-1);
+    // bfs2(root);
     return 0;
 }
 
 
 
-
-
-{"house", "cat", "hope", "hair"}
-
-"ho" -> "house", "hope"
-"cat" -> "cat"
-"h" -> "house", "hope", "hair"
-  
-       
-       struct trie {
-           trie *map<char,trie> child ;
-           bool isLeaf;
-           
-           trie() {
-                for(auto char : child) {
-                    child[char] = NULL;
-                }
-               isLeaf = false;
-           }
-       }
-       
-       void insert(trie * root,string &s, int st){
-         
-         for(int i = st ; i < s.size(); i++ ) {
-             if(root->child[s[i]] == NULL) root->child[s[i]] = new trie();
-             root = root->child[s[i]];
-         }
-         root->isLeaf = true;
-       }
-       
-       bool search(trie * root, string & word, int st) {
-           for(int i = 0 ; i < word.size(); i ++) {
-               if(root->child[word[i]] == NULL) return false;
-               
-               root = root->child[word[i]];
-           }
-           
-           return true;
-       }
-       
-       int main() {
-           int n;
-           cin>>n;
-           vector<string> BusinessName;
-           
-           for(int  )// input
-           
-           string searchTerm; 
-           
-           for(auto name : BusinessName) {
-               trie * root  = new trie();
-               insert(name,root,0);
-               
-               for(int i = 1; i +1 < name.size(); i++ ) {
-                   if(name[i]== ' '){
-                       insert(root,name,i+1);
-                   }
-               }
-           }
-           if(search(root,searchTerm)){
-               cout<<name<<endl;
-           }
-           
-           
-       }   
-    
-    
-    
-    
-
-
-----------------------------------
-/*
-Q1. HeadToTail
-
-In this puzzle game, sometimes called Word Ladder, the goal is to find a path of words between two English words with two simple rules:
-- You can change only one letter at a time
-- Every word in the steps has to be a valid English word.
-Here is an example, going from "HEAD" to "TAIL" (make sure to emphasize which letter is changed on each step):
-- HEAD
-- HEAL
-- TEAL
-- TELL
-- TALL
-- TAIL
-
-bool EnglishDictionary.isValidWord(String word);
-*/
-  static class Pair<T,U> {
-      T left;
-      U right;
-      public Pair(T left,U right){
-          this.left = left;
-          this.right = right;
-      }
-      public <T,U> T getLeft(){
-          return (T) this.left;
-      }
-            public <T,U> T getRight(){
-          return (T) this.right;
-      }
-  }
-      class Node {
-        String CurrWord;
-        List<String> path = new ArrayList();
-        public Node(string CurrWord,List<String> prevPath) {
-            path.addAll(prevPath);
-            path.add(currWord);
-            this.CurrWord = CurrWord;
-        }
-  
-  private List<Pair<String,Integer>> getNeighbors(Set<string> visited,Node node){
-      String cur = node.currWord;
-      List<Pair<String,Integer>> neighbors = new ArrayList<>();
-       for(int i = cur.size; i > 0; i --) {
-           for(int j = 0; j< 26;j ++  ){
-               String temp = cur;
-               if (cur[i]!='A'+j) {
-                   temp[i]='A'+j;
-                   if(isValidWord(temp)) {
-                          //add to neighbor
-                       
-                     neigbors.add(new Pair<>(temp,i));
-                   }
-               }
-           }
-       }
-    return neighbors;
-      
-      
-  }
-
-        public List<String> getPath(Set<String> dev, String beginword,String endWord) {
-            Queue<Node> q = new LinkedList<>();
-            List<String> path = new ArrayList<>();
-            q.add(new Node(beginword,path));
-            Set<String> visited = new HashSet<>();
-            
-            visited.add(beginword);
-            while(!q.isEmpty()) {
-                
-                
-                Node curr = q.poll();
-                
-                if(curr.CurrWord.equals(endWord)){
-                    System.out.println(curr.path);
-                    return curr.path;
-                }
-                for(Pair<String,Integer> neighbour : getNeighbour(visited,curr)) {
-                    q.add(new Node
-                }
-            }
-            
-        }
-        
-    }
 
 
 
