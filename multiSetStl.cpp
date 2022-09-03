@@ -54,7 +54,7 @@ for(auto it = m.lower_bound(10);it!=m.upper_bound(77);it++){
 // multiset 
 
 // Custom Data type
- multiset<pair<string,int>, person_compare > m2;
+ multiset<pair<string,int>, person_compare > m2;// c++ 11 error persist ignore it
  m2.insert(p1);
  m2.insert(p2);
  m2.insert(p3);

@@ -22,6 +22,34 @@ public:
 		right = NULL;
 	}
 };
+
+node * customBuildfromArray(node *root){
+	int t,n;
+
+	cin>>t>>n;
+
+	root = new node(t);
+
+	if(n ==2) {
+		root->left = customBuildfromArray(root->left);
+		root->right = customBuildfromArray(root->right);
+	}else if(n==1) {
+		root->left = customBuildfromArray(root->left);
+		
+	} 
+
+	return root;
+}
+void sumAtKthLevel(node * root, int k, int & sum) {
+     
+     if(k == 0) {
+     	sum+= root->data;
+     	return;
+     }
+     sumAtKthLevel(root->left,k,sum);
+     sumAtKthLevel(root->right,k,sum);
+
+}
 node * insertInBST(node *root,int data){
 	 if(root == NULL) return new node(data);
 
@@ -34,6 +62,23 @@ node * insertInBST(node *root,int data){
 	 return root;
 }
 
+node *buildBSTfromSortedArray(int arr[],int start,int end) {
+	if(start>end) return NULL;
+
+	int mid = (start + end)/ 2;
+
+	node * root = new node(arr[mid]);
+
+	root->left = buildBSTfromSortedArray(arr,start,mid-1);
+	root->right = buildBSTfromSortedArray(arr,mid+1,end);
+
+	return root;
+}
+void printPreorder(node *root){
+   cout<<root->data<<" ";
+   printPreorder(root->left);
+   printPreorder(root->right);
+}
 node *buildBSTfromPreorder(int pre[], int key,int min,int max,int size){
 
 static int preIndex = 0;
@@ -187,7 +232,7 @@ LinkedList flatten(node *root) {
 	   root->right = rightLL.head;
 
 	   l.head = root;
-	   l.tail = rightLL.tail.
+	   l.tail = rightLL.tail;
 	}
 	LinkedList leftLL = flatten(root->left);
 	LinkedList rightLL = flatten(root->right);
@@ -213,20 +258,26 @@ int main(){
     freopen("output.txt", "w", stdout);
     #endif
     
-    node *root = build();
-    inorder(root);
-    cout<<endl;
-    bfs2(root);
+    // node *root = build();
+    // inorder(root);
+    // cout<<endl;
+    // bfs2(root);
      
-     int s;
-     cin>>s;
-     root = deleteInBST(root,s);
-     inorder(root);
-     bfs2(root);
-     if(isBST(root)) cout<<" HASHAHAHAHAHAH";
+    //  int s;
+    //  cin>>s;
+    //  root = deleteInBST(root,s);
+    //  inorder(root);
+    //  bfs2(root);
+    //  if(isBST(root)) cout<<" HASHAHAHAHAHAH";
      // if(search(root,s)) cout<<"present";
      // else cout<<"Not Present";
-   
-
+     
+     node * root = NULL;
+     root = customBuildfromArray(root);
+     int k;
+     cin>>k;
+     int sum = 0;
+     sumAtKthLevel(root,k,sum);   
+     cout<<sum<<endl;
 	return 0;
 }

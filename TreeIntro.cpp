@@ -435,7 +435,7 @@ node * lca(node*root,int a,int b){
 	return rightans;
 }
 // finding the level of given node
-int search(Node *root,int key,int level) {
+int search(node *root,int key,int level) {
 	if(root == NULL) return -1;
 
 	if(root->data == key) return level;
@@ -520,17 +520,15 @@ int main() {
 
     node * tree = inputLevelWise(input);
      bfs2(tree);
-    cout<<" max Sum Path"<<maxPathSumFromAnyNode(tree).maxSum<<endl;
-    //  verticalOrderPrint(tree,d,m);
-    //  for(auto p : m){
+    // cout<<" max Sum Path"<<maxPathSumFromAnyNode(tree).maxSum<<endl;
+      verticalOrderPrint(tree,d,m);
+     for(auto p : m){
 
-    //  	cout<<p.first<<"    ";
-    //     for(auto k : p.second) {
-    //  	cout<<p.second[0]<<" ";
 
-    //  }  cout<<endl;
+     	cout<<p.second[p.second.size()-1]<<" ";
 
-    //  }
+
+     }
     // // node * tree = buildTree();
     // int rightView = 0;
     // int leftView = 0;
