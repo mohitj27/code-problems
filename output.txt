@@ -1,4 +1,4 @@
-du
-dov
-dog
-c
+Vertex0->1.2.
+Vertex1->0.
+Vertex2->0.3.3.
+Vertex3->2.2.
