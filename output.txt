@@ -1,6 +1,2 @@
-0 1 2 3 4 5 Node 0Dist from src0
-Node 1Dist from src1
-Node 2Dist from src2
-Node 3Dist from src3
-Node 4Dist from src4
-Node 5Dist from src5
+36 <<--30 <<--29 <<--15 <<--0
+4
