@@ -29,7 +29,25 @@ class Heap {
     	v.push_back(-1);
     	minHeap = true;
     }
+    void heapify(int idx){
 
+        int leftChild = 2*idx
+        int rightChild = leftChild + 1;
+        int lastIdx = v.size() - 1;
+        int minIdx = idx;
+        if(leftChild <= lastIdx and compare(v[leftChild], v[minIdx])) {
+             minIdx = leftChild;
+        }
+        if(rightChild <= lastIdx and compare(v[rightChild],v[minIdx])) {
+            minIdx = rightChild;
+        }
+
+        if(minIdx!=idx){
+            swap(v[idx],v[minIdx]);
+            heapify(minIdx);
+        }
+
+    }
     void push(int d){
       
       v.push_back(d);
@@ -40,6 +58,19 @@ class Heap {
       	idx = parent;
       	parent = parent/2;
       }
+    }
+
+    int top() {
+        return v[1];
+    }
+
+    void pop() {
+      int last = v.size() - 1;
+      swap(v[lalst],v[1]);
+      v.pop_back();
+
+      heapify(1);
+
     }
 
 
@@ -55,7 +86,12 @@ int main() {
     // for writing output to output.txt
     freopen("output.txt", "w", stdout);
     #endif
+    
+    int n;
 
+    cin>>n;
+    Heap h;
+    for(int i =0 ; i < )
     
 
 	return 0;
