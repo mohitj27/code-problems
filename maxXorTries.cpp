@@ -41,7 +41,7 @@ public:
 				// bit ois 1
 				if(temp->right== NULL){
 					temp->right = new node();
-				}
+				} 
 				temp = temp->right;
 			}
 		}
@@ -104,3 +104,12 @@ int main(){
 
 	return 0;
 }
+
+
+
+
+
+
+
+
+

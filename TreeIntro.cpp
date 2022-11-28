@@ -234,7 +234,8 @@ Pair fastDiameter(node*root){
  	int rightSum = replaceSum(root->right);
  	int temp = root->data;
 
- 	root->data = leftSum + rightSum;
+ 	root->data = leftSu
+ 	m + rightSum;
 
  	return temp + root->data;
 
@@ -559,6 +560,46 @@ int main() {
     // node *root = createTreeFromTravPos(ind,post,0,k-1);
     // bfs2(root);
     return 0;
+}
+
+function foo(items) {
+  var i;
+  for (i = 0; i < items.length; i++) {
+    alert("Welcome To LiveCode " + items[i]);
+  }
+}
+
+// Given an unsorted integer array, return the smallest missing positive integer. Implementing this in O(n) time complexity and O(1) space constant.
+// [2, 5, 45, -4, 1, 4] -> 3
+              
+       2, 5, 45, 1,4,-4
+       a[]
+
+// i = 1; i++
+// int i =1; 
+
+int findMissingPositive(vector<int> arr) {
+    
+    int s = arr.size();
+    
+    for(int i =0; i < s; i ++) {
+        
+        if(arr[i] < 0 || arr[i] == 0 ) {
+            arr[i] = s+1;
+        }
+        if((abs(arr[i]) - 1 < s ) and a[abs(arr[i]) - 1] > 0  ) {
+            arr[abs(arr[i]) - 1] = - arr[abs(arr[i]) - 1];
+            
+        }
+    }
+    
+    for(int i = 0; i <s; i++) {
+        if(arr[i] > 0) return i + 1;
+        
+        return s+1; 
+    }
+    
+    
 }
 
 
